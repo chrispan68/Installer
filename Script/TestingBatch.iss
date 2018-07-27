@@ -40,8 +40,8 @@ Source: "C:\Users\Chris Pan\Windows Downloader\Xming-6-9-0-31-setup.exe"; DestDi
 Source: "C:\Users\Chris Pan\Windows Downloader\Git-2.18.0-64-bit.exe"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "C:\Users\Chris Pan\Windows Downloader\IdeaIC2018.1\*"; DestDir: "{%HOMEPATH}"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installintellij
 Source: "C:\Users\Chris Pan\Windows Downloader\jdk\*"; DestDir: "{pf64}\Java"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installjava
-Source: "C:\Users\Chris Pan\Windows Downloader\jdk.table.xml"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
-Source: "C:\Users\Chris Pan\Windows Downloader\terminal.xml"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
+Source: "C:\Users\Chris Pan\Windows Downloader\testingoutput\jdk.table.xml"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
+Source: "C:\Users\Chris Pan\Windows Downloader\testingoutput\terminal.xml"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
 Source: "C:\Users\Chris Pan\Windows Downloader\postscript.bat"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files 
 
