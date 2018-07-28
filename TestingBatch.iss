@@ -52,19 +52,20 @@ Source: "C:\Users\Chris Pan\LIFT-CS\Installer\.inputrc"; DestDir: "{%HOMEPATH}";
 
 
 [Run]
-Filename: "{tmp}\ideaIC-2018.1.6.exe"; Parameters: "/S /D={pf64}\JetBrains"; StatusMsg: "Installing Intellij... (This may take a while)"; Tasks: installintellij
+Filename: "{tmp}\ideaIC-2018.2.exe"; Parameters: "/S /D={pf64}\JetBrains"; StatusMsg: "Installing Intellij... (This may take a while)"; Tasks: installintellij
 Filename: "{tmp}\Xming-6-9-0-31-setup.exe"; Parameters: "/SILENT /LOG"; StatusMsg: "Installing XMing"; Tasks: installgit
 Filename: "{tmp}\Git-2.18.0-64-bit.exe"; Parameters: "/SILENT"; StatusMsg: "Installing Git"; Tasks: installgit        
-Filename: "{tmp}\postscript.bat"; Parameters: "10.0.2 ""{pf64}\Git\bin\sh.exe"" ""{tmp}"" ""{%HOMEPATH}"""; Flags: runasoriginaluser; Tasks: installintellij             
+Filename: "{tmp}\postscript.bat"; Parameters: "10.0.2 ""{pf64}\Git\bin\sh.exe"" ""{tmp}"" ""{%HOMEPATH}"" .IdeaIC2018.2"; Flags: runasoriginaluser; Tasks: installintellij             
 
 [Registry]
 Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
-    ValueType: expandsz; ValueName: "Path"; ValueData: "{pf64}\Java\jdk-10.0.1\bin;{olddata}"; \
-    Check: NeedsAddPath(ExpandConstant('{pf64}\Java\jdk-10.0.1\bin')); Tasks: installjava
+    ValueType: expandsz; ValueName: "Path"; ValueData: "{pf64}\Java\jdk-10.0.2\bin;{olddata}"; \
+    Check: NeedsAddPath(ExpandConstant('{pf64}\Java\jdk-10.0.2\bin')); Tasks: installjava
 
 Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
-    ValueType: expandsz; ValueName: "Path"; ValueData: "%SystemRoot%\system32\WindowsPowerShell\v1.0"; \
-    Check: NeedsAddPath('%SystemRoot%\system32\WindowsPowerShell\v1.0')
+    ValueType: expandsz; ValueName: "%JAVA_HOME%"; ValueData: "{pf64}\Java\jdk-10.0.2"; \
+    Tasks: installjava
+
 
 [Code]
 
