@@ -63,8 +63,8 @@ Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environmen
     Check: NeedsAddPath(ExpandConstant('{pf64}\Java\jdk-10.0.2\bin')); Tasks: installjava
 
 Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
-    ValueType: expandsz; ValueName: "%JAVA_HOME%"; ValueData: "{pf64}\Java\jdk-10.0.2"; \
-    Tasks: installjava
+    ValueType: expandsz; ValueName: "%IDEA_JDK_64"; ValueData: "{pf64}\JetBrains\C:\IntelliJ IDEA Community Edition 2018.2\jre64"; \
+    Tasks: installintellij
 
 
 [Code]
