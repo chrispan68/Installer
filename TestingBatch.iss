@@ -25,6 +25,7 @@ OutputDir=C:\Users\Chris Pan\LIFT-CS\Installer\output
 OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
+PrivilegesRequired=admin
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -36,18 +37,19 @@ Name: installintellij; Description: "Install Intellij Community Edition"
 Name: installlift; Description: "Install Lift Folder Containing Algs4" 
 
 [Files]
-Source: "C:\Users\Chris Pan\LIFT-CS\Installer\ideaIC-2018.2.exe"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
+Source: "C:\Users\Chris Pan\LIFT-CS\Installer\ideaIC-2018.2.exe"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij;
 Source: "C:\Users\Chris Pan\LIFT-CS\Installer\Xming-6-9-0-31-setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "C:\Users\Chris Pan\LIFT-CS\Installer\Git-2.18.0-64-bit.exe"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
-Source: "C:\Users\Chris Pan\LIFT-CS\Installer\IdeaIC2018.2\*"; DestDir: "{%HOMEPATH}"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installintellij
+Source: "C:\Users\Chris Pan\LIFT-CS\Installer\IdeaIC2018.2\*"; DestDir: "{tmp}"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installintellij
 Source: "C:\Users\Chris Pan\LIFT-CS\Installer\jdk\*"; DestDir: "{pf64}\Java"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installjava
 Source: "C:\Users\Chris Pan\LIFT-CS\Installer\jdk.table.xml"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
 Source: "C:\Users\Chris Pan\LIFT-CS\Installer\terminal.xml"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
 Source: "C:\Users\Chris Pan\LIFT-CS\Installer\postscript.bat"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
+Source: "C:\Users\Chris Pan\LIFT-CS\Installer\copyuserfiles.bat"; DestDir: "{tmp}"; Flags: ignoreversion; 
 Source: "C:\Users\Chris Pan\LIFT-CS\Installer\lift-cli\*"; DestDir: "{pf64}\Git\usr\local"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installlift
-Source: "C:\Users\Chris Pan\LIFT-CS\Installer\.bashrc"; DestDir: "{%HOMEPATH}"; Flags: ignoreversion
-Source: "C:\Users\Chris Pan\LIFT-CS\Installer\.bash_profile"; DestDir: "{%HOMEPATH}"; Flags: ignoreversion
-Source: "C:\Users\Chris Pan\LIFT-CS\Installer\.inputrc"; DestDir: "{%HOMEPATH}"; Flags: ignoreversion
+Source: "C:\Users\Chris Pan\LIFT-CS\Installer\.bashrc"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "C:\Users\Chris Pan\LIFT-CS\Installer\.bash_profile"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "C:\Users\Chris Pan\LIFT-CS\Installer\.inputrc"; DestDir: "{tmp}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files 
 
 
@@ -55,7 +57,8 @@ Source: "C:\Users\Chris Pan\LIFT-CS\Installer\.inputrc"; DestDir: "{%HOMEPATH}";
 Filename: "{tmp}\ideaIC-2018.2.exe"; Parameters: "/S /D={pf64}\JetBrains"; StatusMsg: "Installing Intellij... (This may take a while)"; Tasks: installintellij
 Filename: "{tmp}\Xming-6-9-0-31-setup.exe"; Parameters: "/SILENT /LOG"; StatusMsg: "Installing XMing"; Tasks: installgit
 Filename: "{tmp}\Git-2.18.0-64-bit.exe"; Parameters: "/SILENT"; StatusMsg: "Installing Git"; Tasks: installgit        
-Filename: "{tmp}\postscript.bat"; Parameters: "10.0.2 ""{pf64}\Git\bin\sh.exe"" ""{tmp}"" ""{%HOMEPATH}"" .IdeaIC2018.2"; Flags: runasoriginaluser; Tasks: installintellij             
+Filename: "{tmp}\postscript.bat"; Parameters: "10.0.2 ""{pf64}\Git\bin\sh.exe"" ""{tmp}"" ""{%HOMEPATH}"" .IdeaIC2018.2"; Flags: runasoriginaluser; Tasks: installintellij  
+Filename: "{tmp}\copyuserfiles.bat"; Parameters:"""{tmp}"" ""{%HOMEPATH}"""; Flags: runasoriginaluser      
 
 [Registry]
 Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
