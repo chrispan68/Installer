@@ -27,14 +27,15 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\LIFT-CS
+DefaultDirName={pf64}/LIFT-CS
 DefaultGroupName={#MyAppName}
-LicenseFile={#WorkingDirectory}liscence.txt
+LicenseFile={#WorkingDirectory}license.rtf
 OutputDir={#WorkingDirectory}output
 OutputBaseFilename=lift-installer
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin
+UsePreviousAppDir=no
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -45,16 +46,11 @@ Name: installgit; Description: "Install Git Bash"
 Name: installintellij; Description: "Install IntelliJ Community Edition {#IntellijVersion}"
 
 [Files]
-Source: "{#WorkingDirectory}ideaIC-2018.2.exe"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij;
-Source: "{#WorkingDirectory}Xming-6-9-0-31-setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
-Source: "{#WorkingDirectory}Git-2.18.0-64-bit.exe"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
+Source: "{#WorkingDirectory}\{#IntelliJInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij; BeforeInstall: SetProgressMax(2);
+Source: "{#WorkingDirectory}\{#XMingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
+Source: "{#WorkingDirectory}\{#GitBashInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "{#WorkingDirectory}ide-prefs\*"; DestDir: "{tmp}"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installintellij
 Source: "{#WorkingDirectory}jdk\*"; DestDir: "{pf64}\Java"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installjava
-Source: "{#WorkingDirectory}jdk.table.xml"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
-Source: "{#WorkingDirectory}terminal.xml"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
-Source: "{#WorkingDirectory}setxmlfiles.bat"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij
-Source: "{#WorkingDirectory}copyintellijprefs.bat"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij 
-Source: "{#WorkingDirectory}copybashprefs.bat"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "{#WorkingDirectory}lift-cli\*"; DestDir: "{pf64}\Git\usr\local"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installgit
 Source: "{#WorkingDirectory}.bashrc"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "{#WorkingDirectory}.bash_profile"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
@@ -62,18 +58,38 @@ Source: "{#WorkingDirectory}.inputrc"; DestDir: "{tmp}"; Flags: ignoreversion; T
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files 
 
 [Run]
-Filename: "{tmp}\{#IntelliJInstaller}"; Parameters: "/S /D={pf64}\JetBrains"; StatusMsg: "Installing Intellij... (This may take a while)"; Tasks: installintellij
-Filename: "{tmp}\{#XMingInstaller}"; Parameters: "/SILENT /LOG"; StatusMsg: "Installing XMing"; Tasks: installgit
-Filename: "{tmp}\{#GitBashInstaller}"; Parameters: "/SILENT"; StatusMsg: "Installing Git"; Tasks: installgit        
-Filename: "{tmp}\copyintellijprefs.bat"; Parameters:"""{tmp}"" ""{%HOMEPATH}"" {#IntelliJVersion}"; Flags: runasoriginaluser; Tasks: installintellij    
-Filename: "{tmp}\copybashprefs.bat"; Parameters:"""{tmp}"" ""{%HOMEPATH}"""; Flags: runasoriginaluser; Tasks: installgit 
-Filename: "{tmp}\setxmlfiles.bat"; Parameters: "{#JDKVersion} ""{pf64}\Git\bin\bash.exe"" ""{tmp}"" ""{%HOMEPATH}"" .IdeaIC{#IntelliJVersion}"; Flags: runasoriginaluser; Tasks: installintellij  
-     
+Filename: "{tmp}\{#IntelliJInstaller}"; Parameters: "/S /D={pf64}\JetBrains\IntelliJ IDEA Community Edition {#IntelliJVersion}"; StatusMsg: "Installing Intellij... (This may take a while)"; Tasks: installintellij;
+Filename: "{tmp}\{#XMingInstaller}"; Parameters: "/VERYSILENT /LOG"; StatusMsg: "Installing XMing"; Tasks: installgit; BeforeInstall: UpdateProgress(90);
+Filename: "{tmp}\{#GitBashInstaller}"; Parameters: "/VERYSILENT"; StatusMsg: "Installing Git"; Tasks: installgit; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\bin'));      
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .bashrc"; StatusMsg: "Copying .bashrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; BeforeInstall: UpdateProgress(95)
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .bash_profile"; StatusMsg: "Copying .bash_profile File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .inputrc"; StatusMsg: "Copying .inputrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\usr\local\bin'));
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}\.IdeaIC{#IntelliJVersion}"" ""{%HOMEPATH}\.IdeaIC{#IntelliJVersion}"" /e /mir"; StatusMsg: "Copying IntelliJ Preferences"; Tasks: installintellij; Flags: runasoriginaluser runhidden;
+
+[UninstallDelete]
+Type: filesandordirs; Name: "{%HOMEPATH}\.bashrc" 
+Type: filesandordirs; Name: "{%HOMEPATH}\.bash_profile" 
+Type: filesandordirs; Name: "{%HOMEPATH}\.inputrc" 
+Type: filesandordirs; Name: "{%HOMEPATH}\.IdeaIC{#IntelliJVersion}" 
+Type: filesandordirs; Name: "{pf}\Xming"
+Type: dirifempty; Name: "{pf64}\JetBrains"
+Type: dirifempty; Name: "{pf64}\Java"
+Type: dirifempty; Name: "{pf64}\Git\usr"
+Type: dirifempty; Name: "{pf64}\Git"
+ 
+[UninstallRun]  
+Filename: "{pf64}\JetBrains\IntelliJ IDEA Community Edition {#IntelliJVersion}\bin\Uninstall.exe"; Tasks: installintellij
+Filename: "{pf64}\Git\unins000.exe"; Tasks: installgit
+Filename: "{pf}\Xming\unins000.exe"; Tasks: installgit
 
 [Registry]
 Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
     ValueType: expandsz; ValueName: "Path"; ValueData: "{pf64}\Java\jdk-{#JDKVersion}\bin;{olddata}"; \
     Check: NeedsAddPath(ExpandConstant('{pf64}\Java\jdk-{#JDKVersion}\bin')); Tasks: installjava
+
+Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
+    ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{pf64}\Git\bin;"; \
+    Check: NeedsAddPath(ExpandConstant('{pf64}\Git\bin')); Tasks: installgit
 
 
 [Code]
@@ -100,7 +116,91 @@ begin
   Log(IntToStr(Integer(Result)));
 end;
 
+procedure SetProgressMax(Ratio: Integer);
+begin
+  WizardForm.ProgressGauge.Max := WizardForm.ProgressGauge.Max * Ratio;
+end;
+
+procedure UpdateProgress(Position: Integer);
+begin
+  WizardForm.ProgressGauge.Position := Position * WizardForm.ProgressGauge.Max div 100;
+end;
 
 
 
+const
+  EnvironmentKey = 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment';
+
+procedure RemovePath(Path: string);
+var
+  Paths: string;
+  P: Integer;
+begin
+  if not RegQueryStringValue(HKEY_LOCAL_MACHINE, EnvironmentKey, 'Path', Paths) then
+  begin
+    Log('PATH not found');
+  end
+    else
+  begin
+    Log(Format('PATH is [%s]', [Paths]));
+
+    P := Pos(';' + Uppercase(Path) + ';', ';' + Uppercase(Paths) + ';');
+    if P = 0 then
+    begin
+      Log(Format('Path [%s] not found in PATH', [Path]));
+    end
+      else
+    begin
+      if P > 1 then P := P - 1;
+      Delete(Paths, P, Length(Path) + 1);
+      Log(Format('Path [%s] removed from PATH => [%s]', [Path, Paths]));
+
+      if RegWriteStringValue(HKEY_LOCAL_MACHINE, EnvironmentKey, 'Path', Paths) then
+      begin
+        Log('PATH written');
+      end
+        else
+      begin
+        Log('Error writing PATH');
+      end;
+    end;
+  end;
+end;
+
+procedure AddToPath(Path: string);
+var
+  CurPath: string;
+begin
+
+if NeedsAddPath(Path) then
+begin
+    if not RegQueryStringValue(HKEY_LOCAL_MACHINE, EnvironmentKey, 'Path', CurPath) then
+    begin
+      Log('PATH not found');
+    end
+      else
+    begin
+      CurPath := CurPath + ';' + Path + ';';
+      if RegWriteStringValue(HKEY_LOCAL_MACHINE, EnvironmentKey, 'Path', CurPath) then
+      begin
+        Log('PATH written');
+      end
+        else
+      begin
+        Log('Error writing PATH');
+      end;
+    end;
+end;
+
+end;   
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usUninstall then
+  begin
+    RemovePath(ExpandConstant('{pf64}\Java\jdk-{#JDKVersion}\bin'));
+    RemovePath(ExpandConstant('{pf64}\Git\bin'));
+    RemovePath(ExpandConstant('{pf64}\Git\usr\local\bin'));
+  end;
+end;
 
