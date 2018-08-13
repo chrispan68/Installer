@@ -64,9 +64,9 @@ Source: "{#WorkingDirectory}\.inputrc"; DestDir: "{tmp}"; Flags: ignoreversion; 
 
 [Run]
 Filename: "{tmp}\{#IntelliJInstaller}"; Parameters: "/S /D={pf64}\JetBrains\IntelliJ IDEA Community Edition {#IntelliJVersion}"; StatusMsg: "Installing IntelliJ 2018.2... (This may take a while)"; Tasks: installintellij;
-Filename: "{tmp}\{#XMingInstaller}"; Parameters: "/VERYSILENT ""/LOG:{log}"""; StatusMsg: "Installing Xming"; Tasks: installgit; BeforeInstall: UpdateProgress(90);
-Filename: "{tmp}\{#GitBashInstaller}"; Parameters: "/VERYSILENT ""/LOG:{log}"""; StatusMsg: "Installing Git Bash"; Tasks: installgit; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\bin'));      
-Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .bashrcc ""/LOG+:{log}"""; StatusMsg: "Copying .bashrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; BeforeInstall: UpdateProgress(95)
+Filename: "{tmp}\{#XMingInstaller}"; Parameters: "/VERYSILENT ""/LOG={log}"""; StatusMsg: "Installing Xming"; Tasks: installgit; BeforeInstall: UpdateProgress(90);
+Filename: "{tmp}\{#GitBashInstaller}"; Parameters: "/VERYSILENT ""/LOG={log}"""; StatusMsg: "Installing Git Bash"; Tasks: installgit; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\bin'));      
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .bashrc ""/LOG+:{log}"""; StatusMsg: "Copying .bashrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; BeforeInstall: UpdateProgress(95)
 Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .bash_profile ""/LOG+:{log}"""; StatusMsg: "Copying .bash_profile File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
 Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .inputrc ""/LOG+:{log}"""; StatusMsg: "Copying .inputrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\usr\local\bin'));
 Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}\.IdeaIC{#IntelliJVersion}"" ""{%HOMEPATH}\.IdeaIC{#IntelliJVersion}"" /e /mir ""/LOG+:{log}"""; StatusMsg: "Copying IntelliJ Preferences"; Tasks: installintellij; Flags: runasoriginaluser runhidden;
