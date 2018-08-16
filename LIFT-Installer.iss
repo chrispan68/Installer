@@ -3,15 +3,15 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "LIFT-CS Java Programming Environment"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.0.1"
 #define MyAppPublisher "Princeton LIFT-CS"
 #define MyAppURL "https://lift.cs.princeton.edu/java/windows"
 #define WorkingDirectory "C:\Users\Chris Pan\LIFT-CS\Installer"
 #define IntelliJInstaller "ideaIC-2018.2.exe"
 #define GitBashInstaller "Git-2.18.0-64-bit.exe"
 #define XMingInstaller "Xming-6-9-0-31-setup.exe"
-#define IntelliJVersion '2018.2'
-#define JDKVersion '10.0.2'
+#define IntelliJVersion "2018.2"
+#define JDKVersion "10.0.2"
 
 
 
@@ -20,9 +20,9 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{2304E6BC-8281-4016-960C-AD630C4937FA}
+AppId={{2304E6BC-8281-4016-960C-AD630C4937FA}}
 AppName={#MyAppName}
-AppVersion={#MyAppVersion}
+AppVersion={#MyAppVersion}                                                 
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
@@ -38,12 +38,16 @@ SolidCompression=yes
 PrivilegesRequired=admin
 UsePreviousAppDir=no
 SetupLogging=yes
-ExtraDiskSpaceRequired=1000000000
+ExtraDiskSpaceRequired=2000000000
 ArchitecturesAllowed=x64
 MinVersion=6.1
+ChangesEnvironment=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
+
+[Dirs]
+Name: "{%TEMP}\LIFT-CS"
 
 [Tasks]
 Name: installjava; Description: "Install OpenJDK {#JDKVersion}"
@@ -51,7 +55,9 @@ Name: installgit; Description: "Install Git Bash"
 Name: installintellij; Description: "Install IntelliJ Community Edition {#IntellijVersion}"
 
 [Files]
-Source: "{#WorkingDirectory}\{#IntelliJInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij; BeforeInstall: SetProgressMax(2);
+Source: "{#WorkingDirectory}\{#IntelliJInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij; BeforeInstall: SetProgressMax(2)
+Source: "{#WorkingDirectory}\git-log.txt"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit; 
+Source: "{#WorkingDirectory}\xming-log.txt"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit; 
 Source: "{#WorkingDirectory}\{#XMingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "{#WorkingDirectory}\{#GitBashInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "{#WorkingDirectory}\ide-prefs\*"; DestDir: "{tmp}"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installintellij
@@ -63,21 +69,20 @@ Source: "{#WorkingDirectory}\.inputrc"; DestDir: "{tmp}"; Flags: ignoreversion; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files 
 
 [Run]
-Filename: "{tmp}\{#IntelliJInstaller}"; Parameters: "/S /D={pf64}\JetBrains\IntelliJ IDEA Community Edition {#IntelliJVersion}"; StatusMsg: "Installing IntelliJ 2018.2... (This may take a while)"; Tasks: installintellij;
-Filename: "{tmp}\{#XMingInstaller}"; Parameters: "/VERYSILENT ""/LOG={log}"""; StatusMsg: "Installing Xming"; Tasks: installgit; BeforeInstall: UpdateProgress(90);
-Filename: "{tmp}\{#GitBashInstaller}"; Parameters: "/VERYSILENT ""/LOG={log}"""; StatusMsg: "Installing Git Bash"; Tasks: installgit; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\bin'));      
-Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .bashrc ""/LOG+:{log}"""; StatusMsg: "Copying .bashrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; BeforeInstall: UpdateProgress(95)
-Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .bash_profile ""/LOG+:{log}"""; StatusMsg: "Copying .bash_profile File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
-Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%HOMEPATH}"" .inputrc ""/LOG+:{log}"""; StatusMsg: "Copying .inputrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\usr\local\bin'));
-Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}\.IdeaIC{#IntelliJVersion}"" ""{%HOMEPATH}\.IdeaIC{#IntelliJVersion}"" /e /mir ""/LOG+:{log}"""; StatusMsg: "Copying IntelliJ Preferences"; Tasks: installintellij; Flags: runasoriginaluser runhidden;
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%TEMP}\LIFT-CS"" git-log.txt"; StatusMsg: "Copying Git Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%TEMP}\LIFT-CS"" xming-log.txt"; StatusMsg: "Copying Xming Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+Filename: "{tmp}\{#IntelliJInstaller}"; Parameters: "/S /D={pf64}\JetBrains\IntelliJ IDEA Community Edition {#IntelliJVersion}";StatusMsg: "Installing IntelliJ 2018.2... (This may take a while)"; Tasks: installintellij;
+Filename: "{tmp}\{#XMingInstaller}"; Parameters: "/VERYSILENT /LOG=""{%TEMP}\LIFT-CS\xming-log.txt"""; StatusMsg: "Installing Xming"; Tasks: installgit; BeforeInstall: UpdateProgress(90);
+Filename: "{tmp}\{#GitBashInstaller}"; Parameters: "/VERYSILENT /LOG=""{%TEMP}\LIFT-CS\git-log.txt"""; StatusMsg: "Installing Git Bash"; Tasks: installgit; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\bin'));      
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%USERPROFILE}"" .bashrc ""/LOG:{%TEMP}\LIFT-CS\robocopy.txt"""; StatusMsg: "Copying .bashrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; BeforeInstall: UpdateProgress(95)
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%USERPROFILE}"" .bash_profile ""/LOG:{%TEMP}\LIFT-CS\robocopy-log.txt"""; StatusMsg: "Copying .bash_profile File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%USERPROFILE}"" .inputrc ""/LOG+:{%TEMP}\LIFT-CS\robocopy-log.txt"""; StatusMsg: "Copying .inputrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\usr\local\bin'));
+Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}\.IdeaIC{#IntelliJVersion}"" ""{%USERPROFILE}\.IdeaIC{#IntelliJVersion}"" /e /mir ""/LOG+:{%TEMP}\LIFT-CS\robocopy-log.txt"""; StatusMsg: "Copying IntelliJ Preferences"; Tasks: installintellij; Flags: runasoriginaluser runhidden;
 
 [UninstallDelete]
-Type: filesandordirs; Name: "{%HOMEPATH}\.bashrc" 
-Type: filesandordirs; Name: "{%HOMEPATH}\.bash_profile" 
-Type: filesandordirs; Name: "{%HOMEPATH}\.inputrc" 
 Type: filesandordirs; Name: "{%HOMEPATH}\.IdeaIC{#IntelliJVersion}" 
 Type: filesandordirs; Name: "{pf}\Xming"
-Type: dirifempty; Name: "{pf64}\JetBrains"
+Type: filesandordirs; Name: "{pf64}\JetBrains"
 Type: dirifempty; Name: "{pf64}\Java"
 Type: dirifempty; Name: "{pf64}\Git\usr"
 Type: dirifempty; Name: "{pf64}\Git"
