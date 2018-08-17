@@ -5,4 +5,6 @@ Go to this link: https://git-scm.com/download/win. Download the .exe file into t
 
 Go to this link: https://www.jetbrains.com/idea/download/#section=windows. Download the Community Edition .exe file into the working directory. (Should look something like ideaIC-******.***.exe)
 
+Go to this link: http://lift.cs.princeton.edu/java/windows/IdeaIC2018.2.zip. Download the IdeaIC2018.2.zip file. Create a directory called ide-prefs in the working directory. Un-zip the IdeaIC2018.2.zip file into this ide-prefs directory.
+
 Go to this link: 
