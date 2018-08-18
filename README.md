@@ -33,4 +33,5 @@ Make any updates that need to happen:
 Ctrl+S to save the Inno script file. The working directory should look like this:
 ![alt_text](https://github.com/chrispan68/Installer/blob/master/directory-snip.png)
 Next go back to the LIFT-Installer.iss file, (opened with the Inno Setup Compiler.) Click the green run arrow circled:
-
+![alt_text](https://github.com/chrispan68/Installer/blob/master/run-compiler.png)
+After the compilation is completed, navigate to your working directory and open the output folder. There should be a file called lift-java-installer.exe. This is the file that you can distribute to students, (after signing it). 
