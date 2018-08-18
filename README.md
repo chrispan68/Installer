@@ -14,3 +14,8 @@ Go to this link:http://jdk.java.net/10. You should see the following screen:
 Click on the circled install to install the .tar.gz file. Open up either command prompt or terminal and navigate to the directory that the downloaded .tar.gz file is. Type the following command into your command prompt or terminal window: tar -C <path to working directory>/jdk -zxvf openjdk-10.0.2_windows-x64_bin.tar.gz, (except replace <path to working directory> with the actual path to your working directory). The resulting command should look something like this, where "C:\Users\Chris Pan\LIFT-CS\Installer" is my working directory:
 ![alt_text](https://github.com/chrispan68/Installer/blob/master/cmd-targz-unzipping.png)
 
+Go to this link: http://www.jrsoftware.org/isdl.php. Download the Innosetup software by clicking on the circled link:
+![alt_text](http://www.jrsoftware.org/isdl.php)
+Follow the installer instructions. 
+
+Navigate to the working directory and open the LIFT-Installer.iss file. (This should open the with Inno Setup Compiler by default). You should see a screen like this: 
