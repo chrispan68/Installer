@@ -19,3 +19,4 @@ Go to this link: http://www.jrsoftware.org/isdl.php. Download the Innosetup soft
 Follow the installer instructions. 
 
 Navigate to the working directory and open the LIFT-Installer.iss file. (This should open the with Inno Setup Compiler by default). You should see a screen like this: 
+![alt_text](https://github.com/chrispan68/Installer/blob/master/inno-setup-compilation.png)
