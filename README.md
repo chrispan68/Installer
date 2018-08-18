@@ -31,3 +31,6 @@ Make any updates that need to happen:
 6) Define JDKVersion as the version of the java jdk. Should be a number then a period then a number then a period then a number, such as 10.0.2 , or 10.1.3. (You can tell what the JDKVersion is by going into the jdk folder of the working directory and looking at the folder name inside that folder. The name of the folder is in the form of jdk-<version> and this <version> is what you want to set as the jdk verion. For example, my folder is named "jdk-10.0.2".)
   
 Ctrl+S to save the Inno script file. The working directory should look like this:
+![alt_text](https://github.com/chrispan68/Installer/blob/master/directory-snip.png)
+Next go back to the LIFT-Installer.iss file, (opened with the Inno Setup Compiler.) Click the green run arrow circled:
+
