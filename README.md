@@ -9,4 +9,6 @@ Go to this link: http://lift.cs.princeton.edu/java/windows/IdeaIC2018.2.zip. Dow
 
 Go to this link: http://lift.cs.princeton.edu/java/windows/lift-cli.zip. Download the lift-cli.zip file. Create a directory called ide-prefs in the working directory. Un-zip the lift-cli file into that directory. 
 
-Go to this link:
+Go to this link:http://jdk.java.net/10. You should see the following screen:
+![alt_text](https://github.com/chrispan68/Installer/blob/master/openjdksnapshot.png)
+Click on the circled install to install the .tar.gz file. Open up command line (or terminal) and navigate to the directory that the downloaded .tar.gz file is. 
