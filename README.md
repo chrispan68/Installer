@@ -34,4 +34,4 @@ Some information about the files that we pre-populated the directory with.
 
 The source of the Git Bash installer is: https://git-scm.com/downloads, this will update and needs to be changed, (this means changing the GitBashInstaller constant in the installer as well as downloading the latest version of git from this link.)
 
-The source of the Xming installer is: https://sourceforge.net/projects/xming/. 
+The source of the Xming installer is: https://sourceforge.net/projects/xming/. This hasn't changed since 2007 so it is unlikely that future updates will occur. In the event that one does happen, simply go to this link and download the updated installer into the working directory and change the XMingInstaller constant to be the new name of the installer files.
