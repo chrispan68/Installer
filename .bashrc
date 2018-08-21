@@ -8,10 +8,10 @@ BLUE="\[$(tput setaf 4)\]"
 MAGENTA="\[$(tput setaf 5)\]"
 CYAN="\[$(tput setaf 6)\]"
 WHITE="\[$(tput setaf 7)\]"
-RESET="\[$(tput sgr0)\]"
+DEFAULT="\[$(tput sgr0)\]"
 
 # set command prompt to show current directory
-export PS1="${BLUE} \w> ${RESET}"
+export PS1="${BLUE} \w> ${DEFAULT}"
 
 # don't overwrite files on direction
 set -o noclobber
