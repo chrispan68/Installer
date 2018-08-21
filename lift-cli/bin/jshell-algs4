@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# this must match the install directory 
+LIFT_LIB="/usr/local/lift/lib"
+
+# sets the path to the textbook libraries 
+CLASSPATH=".:${LIFT_LIB}/algs4.jar"
+
+# executes with the textbook libraries in the classpath 
+jshell --class-path "${CLASSPATH}" "$@"

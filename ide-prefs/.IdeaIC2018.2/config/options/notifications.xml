@@ -1,0 +1,8 @@
+<application>
+  <component name="NotificationConfiguration">
+    <notification groupId="Checkstyle IDEA Alerts" displayType="NONE" />
+    <notification groupId="FindBugs: Analysis Finished" displayType="NONE" shouldLog="false" />
+    <notification groupId="IDE and Plugin Updates" displayType="NONE" />
+    <notification groupId="Required Plugins" displayType="STICKY_BALLOON" />
+  </component>
+</application>

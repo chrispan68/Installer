@@ -1,0 +1,19 @@
+<application>
+  <component name="LineMarkerSettings">
+    <option name="providers">
+      <map>
+        <entry key="com.intellij.codeInsight.ExternalAnnotationsLineMarkerProvider" value="false" />
+        <entry key="com.intellij.codeInsight.daemon.impl.IconLineMarkerProvider" value="false" />
+        <entry key="com.intellij.codeInsight.daemon.impl.RecursiveCallLineMarkerProvider" value="false" />
+        <entry key="com.intellij.execution.lineMarker.RunLineMarkerProvider" value="false" />
+        <entry key="com.intellij.ui.ColorLineMarkerProvider" value="false" />
+        <entry key="java.implemented" value="false" />
+        <entry key="java.implementing" value="false" />
+        <entry key="java.lambda" value="false" />
+        <entry key="java.overridden" value="false" />
+        <entry key="java.overriding" value="false" />
+        <entry key="java.service" value="false" />
+      </map>
+    </option>
+  </component>
+</application>
