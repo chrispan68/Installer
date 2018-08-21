@@ -3,9 +3,7 @@ Navigate to where you want the working directory to be using cmd or terminal. Ty
 
 Go to this link: https://www.jetbrains.com/idea/download/#section=windows. Download the Community Edition .exe file into the working directory. (Should look something like ideaIC-2018.2.exe)
 
-Go to this link:http://jdk.java.net/10. You should see the following screen:
-![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/openjdksnapshot.png)
-Click on the circled install to install the .tar.gz file. Open up either command prompt or terminal and navigate to the directory that the downloaded .tar.gz file is. Type the following command into your command prompt or terminal window: tar -C <path to working directory>/jdk -zxvf openjdk-10.0.2_windows-x64_bin.tar.gz, (except replace <path to working directory> with the actual path to your working directory). The resulting command should look something like this, where "C:\Users\Chris Pan\LIFT-CS\Installer" is my working directory:
+Go to this link:https://lift.cs.princeton.edu/java/windows/openjdk-10.0.2_windows-x64_bin.tar.gz. This should download a tar.gz file. Open up either command prompt or terminal and navigate to the directory that the downloaded .tar.gz file is. Type the following command into your command prompt or terminal window: tar -C <path to working directory>/jdk -zxvf openjdk-10.0.2_windows-x64_bin.tar.gz, (except replace <path to working directory> with the actual path to your working directory). The resulting command should look something like this, where "C:\Users\Chris Pan\LIFT-CS\Installer" is my working directory:
 ![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/cmd-targz-unzipping.png)
 
 Go to this link: http://www.jrsoftware.org/isdl.php. Download the Innosetup software by clicking on the circled link:
