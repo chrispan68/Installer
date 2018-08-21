@@ -1,5 +1,5 @@
 # Installer
-Navigate to where you want the working directory to be using cmd or terminal. Type in the following command "git clone https://github.com/chrispan68/Installer.git" to clone the repository in that location in a folder called Installer. The path to your working directory working directory is now going look like <some path>\Installer. 
+Navigate to where you want the working directory to be using cmd or terminal. Type in the following command "git clone https://github.com/chrispan68/Installer.git" to clone the repository in that location in a folder called Installer. The path to your working directory is now going look like <some path>\Installer. 
 
 Go to this link: https://www.jetbrains.com/idea/download/#section=windows. Download the Community Edition .exe file into the working directory. (Should look something like ideaIC-2018.2.exe)
 
@@ -16,7 +16,7 @@ Navigate to the working directory and open the LIFT-Installer.iss file. (This sh
 ![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/inno-setup-compilation.png)
 The circled section contains a bunch of defined constants. For example, #define XMingInstaller "Xming-6-9-0-31-setup.exe", causes XMingInstaller to be defined as Xming-6-9-0-31-setup.exe. The only part of the script that needs to be updated is this section.
 
-Make any updates that need to happen:
+Make any updates that need to happen, (most of these things don't need to change at all):
 1) Define WorkingDirectory as the path to your working directory that you created before. 
 2) Define IntelliJInstaller as the filename of the intellij installer you downloaded earlier, should be an .exe file.
 3) Define GitBashInstaller as the filename of the git installer you downloaded earlier, should be an .exe file.
@@ -29,3 +29,9 @@ Ctrl+S to save the Inno script file. The working directory should look like this
 Next go back to the LIFT-Installer.iss file, (opened with the Inno Setup Compiler.) Click the green run arrow circled:
 ![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/run-compiler.png)
 After the compilation is completed, navigate to your working directory and open the output folder. There should be a file called lift-java-installer.exe. This is the file that you can distribute to students, (after signing it). 
+
+Some information about the files that we pre-populated the directory with. 
+
+The source of the Git Bash installer is: https://git-scm.com/downloads, this will update and needs to be changed, (this means changing the GitBashInstaller constant in the installer as well as downloading the latest version of git from this link.)
+
+The source of the Xming installer is: https://sourceforge.net/projects/xming/. 
