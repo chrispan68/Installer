@@ -4,16 +4,16 @@ Navigate to where you want the working directory to be using cmd or terminal. Ty
 Go to this link: https://www.jetbrains.com/idea/download/#section=windows. Download the Community Edition .exe file into the working directory. (Should look something like ideaIC-2018.2.exe)
 
 Go to this link:http://jdk.java.net/10. You should see the following screen:
-![alt_text](https://github.com/chrispan68/Installer/blob/master/openjdksnapshot.png)
+![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/openjdksnapshot.png)
 Click on the circled install to install the .tar.gz file. Open up either command prompt or terminal and navigate to the directory that the downloaded .tar.gz file is. Type the following command into your command prompt or terminal window: tar -C <path to working directory>/jdk -zxvf openjdk-10.0.2_windows-x64_bin.tar.gz, (except replace <path to working directory> with the actual path to your working directory). The resulting command should look something like this, where "C:\Users\Chris Pan\LIFT-CS\Installer" is my working directory:
-![alt_text](https://github.com/chrispan68/Installer/blob/master/cmd-targz-unzipping.png)
+![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/cmd-targz-unzipping.png)
 
 Go to this link: http://www.jrsoftware.org/isdl.php. Download the Innosetup software by clicking on the circled link:
 ![alt_text](http://www.jrsoftware.org/isdl.php)
 Follow the installer instructions. 
 
 Navigate to the working directory and open the LIFT-Installer.iss file. (This should open the with Inno Setup Compiler by default). You should see a screen like this: 
-![alt_text](https://github.com/chrispan68/Installer/blob/master/inno-setup-compilation.png)
+![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/inno-setup-compilation.png)
 The circled section contains a bunch of defined constants. For example, #define XMingInstaller "Xming-6-9-0-31-setup.exe", causes XMingInstaller to be defined as Xming-6-9-0-31-setup.exe. The only part of the script that needs to be updated is this section.
 
 Make any updates that need to happen:
@@ -25,7 +25,7 @@ Make any updates that need to happen:
 6) Define JDKVersion as the version of the java jdk. Should be a number then a period then a number then a period then a number, such as 10.0.2 , or 10.1.3. (You can tell what the JDKVersion is by going into the jdk folder of the working directory and looking at the folder name inside that folder. The name of the folder is in the form of jdk-<version> and this <version> is what you want to set as the jdk verion. For example, my folder is named "jdk-10.0.2".)
   
 Ctrl+S to save the Inno script file. The working directory should look like this:
-![alt_text](https://github.com/chrispan68/Installer/blob/master/directory-snip.png)
+![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/directory-snip.png)
 Next go back to the LIFT-Installer.iss file, (opened with the Inno Setup Compiler.) Click the green run arrow circled:
-![alt_text](https://github.com/chrispan68/Installer/blob/master/run-compiler.png)
+![alt_text](https://github.com/chrispan68/Installer/blob/master/Screenshots/run-compiler.png)
 After the compilation is completed, navigate to your working directory and open the output folder. There should be a file called lift-java-installer.exe. This is the file that you can distribute to students, (after signing it). 
