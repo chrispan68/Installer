@@ -37,10 +37,10 @@ The source of the Xming installer is: https://sourceforge.net/projects/xming/. T
 # Updates
 Some notes on how to update parts of the installer:
 
-Updating the preferences file: Download the preferences into your working directory from this link: "https://lift.cs.princeton.edu/java/windows/IdeaIC2018.2.zip". Open up your local bash shell, navigate to your working directory and type the following commands:
+Updating the preferences file: Download the preferences into your working directory from this link: "https://lift.cs.princeton.edu/java/windows/IdeaIC.zip". Open up your local bash shell, navigate to your working directory and type the following commands:
 
-rm -rf ide-prefs/.IdeaIC2018.2  
-unzip IdeaIC2018.2.zip -d ide-prefs
+rm -rf ide-prefs/.IdeaIC  
+unzip IdeaIC.zip -d ide-prefs
 
 Be careful as the first command completely removes what's in the directory ide-prefs/.IdeaIC2018.2. 
 
