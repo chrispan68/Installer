@@ -35,3 +35,20 @@ The source of the Git Bash installer is: https://git-scm.com/downloads, this wil
 The source of the Xming installer is: https://sourceforge.net/projects/xming/. This hasn't changed since 2007 so it is unlikely that future updates will occur. In the event that one does happen, simply go to this link and download the updated installer into the working directory and change the XMingInstaller constant to be the new name of the installer files.
 
 # Updates
+Some notes on how to update parts of the installer:
+
+Updating the preferences file: Download the preferences into your working directory from this link: "https://lift.cs.princeton.edu/java/windows/IdeaIC2018.2.zip". Open up your local bash shell, navigate to your working directory and type the following commands:
+
+rm -rf ide-prefs/.IdeaIC2018.2
+unzip IdeaIC2018.2.zip -d ide-prefs
+
+Be careful as the first command completely removes what's in the directory ide-prefs/.IdeaIC2018.2. 
+
+Updating the the LIFT libraries: Download the lift-cli libraries into your working directory from this link: "http://lift.cs.princeton.edu/java/windows/lift-cli.zip". Open up your bash shell, navigate to your working directory and type the following commands:
+
+
+rm -rf lift-cli/bin
+rm -rf lift-cli/lift
+unzip lift-cli.zip -d lift-cli
+
+Be careful as the first two commands complete remove what's in the directory lift-cli/bin and lift-cli/lift
