@@ -61,8 +61,6 @@ Name: "{%TEMP}\LIFT-CS"
 [Files]
 ;Following 
 Source: "{#WorkingDirectory}\{#IntelliJInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installintellij; BeforeInstall: SetProgressMax(2) 
-Source: "{#WorkingDirectory}\git-log.txt"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit; 
-Source: "{#WorkingDirectory}\xming-log.txt"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit; 
 Source: "{#WorkingDirectory}\{#XMingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "{#WorkingDirectory}\{#GitBashInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion; Tasks: installgit
 Source: "{#WorkingDirectory}\ide-prefs\*"; DestDir: "{tmp}"; Flags: ignoreversion recursesubdirs createallsubdirs; Tasks: installintellij
@@ -88,13 +86,19 @@ Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environmen
 
 
 [Run]
-Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%TEMP}\LIFT-CS"" git-log.txt"; StatusMsg: "Copying Git Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
-Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%TEMP}\LIFT-CS"" xming-log.txt"; StatusMsg: "Copying Xming Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+;Line below creates the git log file by running the copy command on cmd on a nul first argument, which creates an empty git-log file.
+Filename: "{sys}\cmd.exe"; Parameters: "/c copy nul ""{%TEMP}\LIFT-CS\git-log.txt"""; StatusMsg: "Copying Git Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+;Line below creates the xming log file by running the copy command on cmd on a nul first argument, which creates an empty xming-log file. 
+Filename: "{sys}\cmd.exe"; Parameters: "/c copy nul ""{%TEMP}\LIFT-CS\xming-log.txt"""; StatusMsg: "Copying Xming Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
 Filename: "{tmp}\{#IntelliJInstaller}"; Parameters: "/S";StatusMsg: "Installing IntelliJ 2018.2... (This may take a while)"; Tasks: installintellij;
+;Below there is a BeforeInstall procedure which updates the progress bar to 90 percent. 
 Filename: "{tmp}\{#XMingInstaller}"; Parameters: "/VERYSILENT /LOG=""{%TEMP}\LIFT-CS\xming-log.txt"""; StatusMsg: "Installing Xming"; Tasks: installgit; BeforeInstall: UpdateProgress(90);
 Filename: "{tmp}\{#GitBashInstaller}"; Parameters: "/VERYSILENT /LOG=""{%TEMP}\LIFT-CS\git-log.txt"""; StatusMsg: "Installing Git Bash"; Tasks: installgit; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\bin'));      
+;The four commands below copy the files as non-admins, which lowers the permissions required to access and modify those files. 
+;Right below is a BeforeInstall procedure which updates the progress bar to 95 percent.
 Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%USERPROFILE}"" .bashrc ""/LOG:{%TEMP}\LIFT-CS\robocopy-gitbash-log.txt"""; StatusMsg: "Copying .bashrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; BeforeInstall: UpdateProgress(95)
 Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%USERPROFILE}"" .bash_profile ""/LOG+:{%TEMP}\LIFT-CS\robocopy-gitbash-log.txt"""; StatusMsg: "Copying .bash_profile File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+;Below is an AfterInstall procedure which adds the path to Git\usr\local\bin to path to facilitate access to the LIFT command line tools. Elaborated at bottom of script
 Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}"" ""{%USERPROFILE}"" .inputrc ""/LOG+:{%TEMP}\LIFT-CS\robocopy-gitbash-log.txt"""; StatusMsg: "Copying .inputrc File"; Tasks: installgit; Flags: runasoriginaluser runhidden; AfterInstall: AddToPath(ExpandConstant('{pf64}\Git\usr\local\bin'));
 Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}\.IdeaIC{#IntelliJVersion}"" ""{%USERPROFILE}\.IdeaIC{#IntelliJVersion}"" /e /mir ""/LOG:{%TEMP}\LIFT-CS\robocopy-intellij-log.txt"""; StatusMsg: "Copying IntelliJ Preferences"; Tasks: installintellij; Flags: runasoriginaluser runhidden;
 
@@ -107,6 +111,7 @@ Type: dirifempty; Name: "{pf64}\Git\usr"
 Type: dirifempty; Name: "{pf64}\Git"
  
 [UninstallRun]  
+;Runs the component uninstallers for intellij, git and xming
 Filename: "{pf64}\JetBrains\IntelliJ IDEA Community Edition {#IntelliJVersion}\bin\Uninstall.exe"; Tasks: installintellij
 Filename: "{pf64}\Git\unins000.exe"; Tasks: installgit
 Filename: "{pf}\Xming\unins000.exe"; Tasks: installgit
@@ -187,7 +192,7 @@ begin
     end;
   end;
 end;
-
+{This procedure was created to append a string to path, this is used due to a complication which is elaborated on at the bottom of the script}
 procedure AddToPath(Path: string);
 var
   CurPath: string;
@@ -214,7 +219,7 @@ begin
 end;
 
 end;   
-
+{This procedure is run every time the uninstallation step changes. When it gets to a certain step, namely usUninstall, it removes many registry entries from the path which we added}
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   if CurUninstallStep = usUninstall then
@@ -224,4 +229,8 @@ begin
     RemovePath(ExpandConstant('{pf64}\Git\usr\local\bin'));
   end;
 end;
+
+{There was a minor complication arising in which the Git installer removes any previous references to the git path from the registry.}
+{This caused an issue since due to the section ordering of InnoSetup, the git installer runs after any registry changes we make.}
+{Thus I had to actually add Git\usr\local\bin to the registry from a post-install procedure in the run section rather than the recommended registry section.}
 

@@ -3,3 +3,4 @@
 /output
 !.gitkeep
 *.zip
+/output/*.exe
