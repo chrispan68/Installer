@@ -112,7 +112,7 @@ Type: dirifempty; Name: "{pf64}\Git"
  
 [UninstallRun]  
 ;Runs the component uninstallers for intellij, git and xming
-Filename: "{pf64}\JetBrains\IntelliJ IDEA Community Edition {#IntelliJVersion}\bin\Uninstall.exe"; Tasks: installintellij
+Filename: "{pf}\JetBrains\IntelliJ IDEA Community Edition {#IntelliJVersion}\bin\Uninstall.exe"; Tasks: installintellij
 Filename: "{pf64}\Git\unins000.exe"; Tasks: installgit
 Filename: "{pf}\Xming\unins000.exe"; Tasks: installgit
 
