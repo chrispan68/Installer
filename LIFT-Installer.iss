@@ -87,9 +87,9 @@ Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environmen
 
 [Run]
 ;Line below creates the git log file by running the copy command on cmd on a nul first argument, which creates an empty git-log file.
-Filename: "{sys}\cmd.exe"; Parameters: "/c copy nul ""{%TEMP}\LIFT-CS\git-log.txt"""; StatusMsg: "Copying Git Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+Filename: "{sys}\cmd.exe"; Parameters: "/c copy nul ""{%TEMP}\LIFT-CS\git-log.txt"" /y"; StatusMsg: "Copying Git Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
 ;Line below creates the xming log file by running the copy command on cmd on a nul first argument, which creates an empty xming-log file. 
-Filename: "{sys}\cmd.exe"; Parameters: "/c copy nul ""{%TEMP}\LIFT-CS\xming-log.txt"""; StatusMsg: "Copying Xming Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
+Filename: "{sys}\cmd.exe"; Parameters: "/c copy nul ""{%TEMP}\LIFT-CS\xming-log.txt"" /y"; StatusMsg: "Copying Xming Log File"; Tasks: installgit; Flags: runasoriginaluser runhidden;
 Filename: "{tmp}\{#IntelliJInstaller}"; Parameters: "/S";StatusMsg: "Installing IntelliJ 2018.2... (This may take a while)"; Tasks: installintellij;
 ;Below there is a BeforeInstall procedure which updates the progress bar to 90 percent. 
 Filename: "{tmp}\{#XMingInstaller}"; Parameters: "/VERYSILENT /LOG=""{%TEMP}\LIFT-CS\xming-log.txt"""; StatusMsg: "Installing Xming"; Tasks: installgit; BeforeInstall: UpdateProgress(90);

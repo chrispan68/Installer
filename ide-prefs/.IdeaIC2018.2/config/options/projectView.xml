@@ -4,5 +4,8 @@
     <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
     <option name="showLibraryContents" value="false" />
+    <option name="showMembers" value="false" />
+    <option name="sortByType" value="true" />
+    <option name="foldersAlwaysOnTop" value="true" />
   </component>
 </application>
