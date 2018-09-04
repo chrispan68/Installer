@@ -38,14 +38,14 @@
     <property name="FileColorsForTabsEnabled" value="true" />
     <property name="FileTemplates.SelectedTemplate" value="HTML File" />
     <property name="IJ_BASE_PACKAGE" value="" />
-    <property name="INSPECTION_FILTER_HISTORY" value="null&#10;equals&#10;!=&#10;infinit&#10;tail&#10;Field&#10;never used&#10;foreach&#10;switch&#10;simplified" />
-    <property name="INTENTION_FILTER_HISTORY" value="!=" />
+    <property name="INSPECTION_FILTER_HISTORY" value="&quot;class in&quot;&#10;default package&#10;null&#10;equals&#10;!=&#10;infinit&#10;tail&#10;Field&#10;never used&#10;foreach" />
+    <property name="INTENTION_FILTER_HISTORY" value="package&#10;!=" />
     <property name="KEYMAP" value="Terminal" />
     <property name="LayoutCode.optimizeImports" value="true" />
     <property name="LayoutCode.rearrangeEntriesJava" value="false" />
     <property name="PLUGIN_FILTER" value="checkst&#10;checkstyle&#10;terminal&#10;save ac" />
     <property name="SearchEveryWhereHistory" value="/" />
-    <property name="SettingsSearchHistory" value="welcome&#10;required pl&#10;Navigation&#10;notifi&#10;copyright" />
+    <property name="SettingsSearchHistory" value="default package&#10;welcome&#10;required pl&#10;Navigation&#10;notifi" />
     <property name="ShowDocumentationInToolWindow" value="false" />
     <property name="SingleInspectionProfilePanel.VERTICAL_DIVIDER_PROPORTION" value="0.5910653" />
     <property name="android-component-compatibility-check" value="1530026530939" />
