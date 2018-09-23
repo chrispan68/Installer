@@ -1375,7 +1375,7 @@
       <path value="View" />
       <option name="myInitialPosition" value="-1" />
     </group>
-    <group value="InsertLiveTemplate" is_action="true" action_type="1" position="2">
+    <group value="OptimizeImports" is_action="true" action_type="1" position="2">
       <path value="root" />
       <path value="Main menu" />
       <path value="Code" />
@@ -1422,7 +1422,7 @@
       <path value="Edit" />
       <option name="myInitialPosition" value="-1" />
     </group>
-    <group value="RenameElement" is_action="true" action_type="1" position="3">
+    <group value="InsertLiveTemplate" is_action="true" action_type="1" position="3">
       <path value="root" />
       <path value="Main menu" />
       <path value="Code" />
@@ -1449,6 +1449,12 @@
       <path value="root" />
       <path value="Main menu" />
       <path value="Edit" />
+      <option name="myInitialPosition" value="-1" />
+    </group>
+    <group value="RenameElement" is_action="true" action_type="1" position="4">
+      <path value="root" />
+      <path value="Main menu" />
+      <path value="Code" />
       <option name="myInitialPosition" value="-1" />
     </group>
     <group value="MakeModule" is_action="true" action_type="1" position="4">

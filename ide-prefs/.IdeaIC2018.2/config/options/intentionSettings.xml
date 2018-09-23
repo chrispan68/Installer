@@ -159,5 +159,11 @@
     <ignoreAction name="XML/Manually setup external resource" />
     <ignoreAction name="XML/Reset to default namespace" />
     <ignoreAction name="XML/Split current tag" />
+    <ignoreAction name="Java/Annotations/Show/Hide Gutter Icon for Annotations Inferred from Source Code" />
+    <ignoreAction name="Java/Strings/Convert raw to String literal" />
+    <ignoreAction name="Java/Strings/Convert to raw string literal" />
+    <ignoreAction name="Java/Strings/Split raw string literal" />
+    <ignoreAction name="Serialization/Randomly change 'serialVersionUID' initializer" />
+    <ignoreAction name="XML/Remove attribute" />
   </component>
 </application>

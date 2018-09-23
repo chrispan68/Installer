@@ -8,7 +8,7 @@
 <module name="Checker">
     <!-- directory where the .java file lives -->
     <!-- the property "basedir" should be passed as a -D command-line option to Java -->
-    <property name="basedir" value="${basedir}"/>
+    <property name="basedir" value="${basedir}" />
 
     <!-- suppress certain checks on a file-by-file basis -->
     <!-- the property "suppresions" should be passed as a -D command-line option to Java -->
@@ -45,13 +45,6 @@
     <!-- Checks that no file is more than 1500 lines long. -->
     <module name="FileLength">
         <property name="max" value="1500"/>
-    </module>
-
-    <module name="RegexpSingleline">
-        <!-- <property name="fileExtensions" value ="java, txt, toy"/> -->
-        <property name="fileExtensions" value ="toy"/>
-        <property name="format" value="[^\x00-\x7F]"/>
-        <property name="message" value="Line contains a non-ASCII character."/>
     </module>
 
     <!-- check for non printable characters (excluding Tab, CR, LF) -->
@@ -123,6 +116,62 @@
 
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>
+
+        <!-- =========================================================================== -->
+        <!-- BEGIN: CUSTOM CHECKERS (by wayne)                                           -->
+        <!-- =========================================================================== -->
+
+        <!-- don't call Runtime.getRuntime(), etc. -->
+        <module name="IllegalMethodCall">
+            <property name="severity" value="error"/>
+            <property name="format" value="Runtime\..*"/>
+            <message key="illegal.method.call" value="Do not call ''{0}'' in this course."/>
+        </module>
+
+        <!-- don't call System.exit(), System.gc(), etc. -->
+        <module name="IllegalMethodCall">
+            <property name="severity" value="error"/>
+            <property name="format" value="System\.(exit|gc|console|inheritedChannel)"/>
+            <message key = "illegal.method.call" value="Do not call ''{0}'' in this course."/>
+        </module>
+
+        <!-- don't call System.setIn(), System.setOut(), etc. -->
+        <module name="IllegalMethodCall">
+            <property name="severity" value="error"/>
+            <property name="format" value="System\.(load|set|get|clear).*"/>
+            <message key = "illegal.method.call" value="Do not call ''{0}'' in this course."/>
+        </module>
+
+        <!-- Checks for calls to StdOut.close() or System.out.close(). -->
+        <module name="IllegalMethodCall">
+            <property name="severity" value="error"/>
+            <property name="format" value="(StdOut|System\.out)\.close"/>
+            <message key = "illegal.method.call" value="Do not call ''{0}'' in this course."/>
+        </module>
+
+        <!-- don't call StdRandom.setSeed() -->
+        <module name="IllegalMethodCall">
+            <property name="severity" value="error"/>
+            <property name="format" value="StdRandom\.setSeed"/>
+            <message key="illegal.method.call" value="Do not call ''{0}'' in this course."/>
+        </module>
+
+        <!-- don't call Thread.sleep(), Thread.yield(), etc. -->
+        <module name="IllegalMethodCall">
+            <property name="severity" value="error"/>
+            <property name="format" value="Thread\..*"/>
+            <message key = "illegal.method.call" value="Do not call ''{0}'' in this course."/>
+        </module>
+
+        <module name="IllegalMethodCall">
+            <property name="format" value="(Integer\.getInteger|Long\.getLong|Boolean\.getBoolean)"/>
+            <message key = "illegal.method.call" value="Do not call ''{0}'' in this course. This method is a shortcut to ''System.getProperty()''. Did you mean to call ''Integer.parseInt()'' instead?"/>
+        </module>
+
+
+        <!-- =========================================================================== -->
+        <!-- END: CUSTOM CHECKERS (by wayne)                                             -->
+        <!-- =========================================================================== -->
 
         <!-- =========================================================================== -->
         <!-- Check for annotations                                                       -->
@@ -244,10 +293,11 @@
          <!-- (must include both short and long names for java.lang classes) -->
         <module name="IllegalType">
             <property name="severity" value="error"/>
-            <property name="illegalClassNames" value="java.lang.Compiler,          Compiler,
+            <property name="illegalClassNames" value="java.lang.Class,             Class,
                                                       java.lang.ClassLoader,       ClassLoader,
-                                                      java.lang.Class,             Class,
+                                                      java.lang.Compiler,          Compiler,
                                                       java.lang.Process,           Process,
+                                                      java.lang.ProcessBuilder,    ProcessBuilder,
                                                       java.lang.Runtime,           Runtime,
                                                       java.lang.RuntimePermission, RuntimePermission,
                                                       java.lang.SecurityManager,   SecurityManager,
@@ -258,6 +308,25 @@
             <message key="illegal.type" value="Do not use the data type ''{0}'' in this course."/>
         </module>
 
+        <!-- Don't allow objects of type Runtime, System, Thread, ... -->
+        <module name="IllegalInstantiation">
+            <property name="severity" value="error"/>
+            <property name="classes" value="java.lang.Class,
+                                            java.lang.ClassLoader,
+                                            java.lang.Compiler,
+                                            java.lang.Process,
+                                            java.lang.ProcessBuilder,
+                                            java.lang.Runtime,
+                                            java.lang.RuntimePermission,
+                                            java.lang.SecurityManager,
+                                            java.lang.System,
+                                            java.lang.Thread,
+                                            java.lang.ThreadGroup,
+                                            java.lang.ThreadLocal"/>
+            <message key="instantiation.avoid" value="Do not create objects of type ''{0}'' in this course."/>
+        </module>
+
+        <!-- do not allow these types from java.util -->
         <module name="IllegalType">
             <property name="severity" value="error"/>
             <property name="illegalClassNames" value="java.util.IdentityHashMap,
@@ -267,43 +336,202 @@
                                                       java.util.Observable,
                                                       java.util.Properties,
                                                       java.util.TimerTask,
-                                                      java.util.Timer,
-                                                      java.util.concurrent.TransferQueue,
-                                                      java.util.concurrent.BlockingQueue,
-                                                      java.util.concurrent.BlockingDeque,
-                                                      java.util.concurrent.ArrayBlockingQueue,
-                                                      java.util.concurrent.ConcurrentHashMap,
-                                                      java.util.concurrent.ConcurrentLinkedDeque,
-                                                      java.util.concurrent.ConcurrentLinkedQueue,
-                                                      java.util.concurrent.ConcurrentSkipListMap,
-                                                      java.util.concurrent.ConcurrentSkipListSet,
-                                                      java.util.concurrent.CopyOnWriteArrayList,
-                                                      java.util.concurrent.CopyOnWriteArraySet,
-                                                      java.util.concurrent.DelayQueue,
-                                                      java.util.concurrent.LinkedBlockingDeque,
-                                                      java.util.concurrent.LinkedBlockingQueue,
-                                                      java.util.concurrent.LinkedTransferQueue,
-                                                      java.util.concurrent.PriorityBlockingQueue,
-                                                      java.util.concurrent.SynchronousQueue"/>
+                                                      java.util.Timer"/>
            <message key="illegal.type" value="Do not use the ''{0}'' data type in this course."/>
         </module>
-
-        <!-- to ensure that the java.util prefix gets used -->
-        <module name="IllegalType">
-            <property name="illegalClassNames" value="java.util.Vector"/>
-            <message key="illegal.type" value="Do not use ''java.util.Vector'' in this course. Instead, use ''java.util.ArrayList'' or ''java.util.LinkedList''."/>
+        <module name="IllegalImport">
+            <property name="severity" value="error"/>
+            <property name="illegalClasses" value="java.util.IdentityHashMap,
+                                                   java.util.Locale,
+                                                   java.util.WeakHashMap,
+                                                   java.util.Observable,
+                                                   java.util.Properties,
+                                                   java.util.TimerTask,
+                                                   java.util.Timer"/>
+            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
         </module>
 
-        <!-- use StringBuilder instead of StringBuffer -->
+        <!-- do not allow classes from these subpackages of java.util -->
         <module name="IllegalType">
-            <property name="illegalClassNames" value="StringBuffer,java.lang.StringBuffer"/>
+            <property name="severity" value="error"/>
+            <property name="illegalClassNames" value=""/>
+            <property name="format" value="^java\.util\.(concurrent|jar|spi|zip)"/>
+            <message key="illegal.type" value="Do not use the ''{0}'' data type in this course."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="severity" value="error"/>
+            <property name="regexp" value="true"/>
+            <property name="illegalClasses" value="^java\.util\.(concurrent|jar|spi|zip)"/>
+            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
+        </module>
+        <module name="IllegalInstantiation">
+            <property name="severity" value="error"/>
+            <property name="classes" value="java.util.concurrent.TransferQueue,
+                                            java.util.concurrent.BlockingQueue,
+                                            java.util.concurrent.BlockingDeque,
+                                            java.util.concurrent.ArrayBlockingQueue,
+                                            java.util.concurrent.ConcurrentHashMap,
+                                            java.util.concurrent.ConcurrentLinkedDeque,
+                                            java.util.concurrent.ConcurrentLinkedQueue,
+                                            java.util.concurrent.ConcurrentSkipListMap,
+                                            java.util.concurrent.ConcurrentSkipListSet,
+                                            java.util.concurrent.CopyOnWriteArrayList,
+                                            java.util.concurrent.CopyOnWriteArraySet,
+                                            java.util.concurrent.DelayQueue,
+                                            java.util.concurrent.LinkedBlockingDeque,
+                                            java.util.concurrent.LinkedBlockingQueue,
+                                            java.util.concurrent.LinkedTransferQueue,
+                                            java.util.concurrent.PriorityBlockingQueue,
+                                            java.util.concurrent.SynchronousQueue"/>
+            <message key="instantiation.avoid" value="Do not create objects of type ''{0}'' in this course."/>
+        </module>
+
+        <!-- do not allow java.net, java.nio, ... -->
+        <!-- bug in IllegalType reported https://github.com/checkstyle/checkstyle/issues/5900 -->
+        <module name="MyIllegalType">
+            <property name="severity" value="error"/>
+            <property name="illegalClassNames" value=""/>
+            <property name="format" value="^java\.(applet|beans|instrument|math|net|nio|security|text|time)\."/>
+            <message key="illegal.type" value="Do not use the ''{0}'' data type in this course."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="severity" value="error"/>
+            <property name="illegalPkgs" value="java.applet,
+                                                java.beans,
+                                                java.instrument,
+                                                java.math,
+                                                java.net,
+                                                java.nio,
+                                                java.security,
+                                                java.text,
+                                                java.time"/>
+            <property name="regexp" value="false"/>
+            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
+        </module>
+
+        <!-- using edu.princeton.cs.stdlib instead of edu.princeton.cs.algs4 -->
+        <module name="IllegalImport">
+            <property name="severity" value="error"/>
+            <property name="illegalPkgs" value="edu.princeton.cs.introcs"/>
+            <message key="import.illegal" value="Do not import ''{0}'' in this course. Instead, use the I/O libraries in edu.princeton.cs.algs4."/>
+        </module>
+
+        <!-- do not allow these types in java.io -->
+        <!-- bug in IllegalType reported https://github.com/checkstyle/checkstyle/issues/5900 -->
+        <module name="MyIllegalType">
+            <property name="severity" value="error"/>
+            <property name="illegalClassNames" value=""/>
+            <property name="format" value="^(java\.io\.)?(.*Writer|.*OutputStream)$"/>
+            <message key="illegal.type" value="Do not use the ''{0}'' data type in this course."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="severity" value="error"/>
+            <property name="illegalClasses" value="^(java\.io\.)?(.*Writer|.*OutputStream)$"/>
+            <property name="regexp" value="true"/>
+            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
+        </module>
+
+        <!-- do not allow these types in java.io either -->
+        <module name="IllegalType">
+            <property name="severity" value="error"/>
+            <property name="illegalClassNames" value="java.io.FilePermission,
+                                                      java.io.RandomAccessFile,
+                                                      java.io.Console"/>
+            <message key="illegal.type" value="Do not use the ''{0}'' data type in this course."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="severity" value="error"/>
+            <property name="illegalClasses" value="java.io.FilePermission,
+                                                   java.io.RandomAccessFile,
+                                                   java.io.Console"/>
+            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
+        </module>
+
+        <!-- do not allow java.lang.reflect, java.lang.invoke, ...  -->
+        <!-- bug in IllegalType reported https://github.com/checkstyle/checkstyle/issues/5900 -->
+        <module name="MyIllegalType">
+            <property name="severity" value="error"/>
+            <property name="illegalClassNames" value=""/>
+            <property name="format" value="^(java\.lang\.)(annotation|invoke|module|ref|reflect)\."/>
+            <message key="illegal.type" value="Do not use the ''{0}'' data type in this course."/>
+        </module>
+
+        <!-- prohibit all classes in java.awt (and subpackages), except java.awt.Color -->
+        <!-- do not allow data types in java.awt except java.awt.Color  -->
+        <module name="MyIllegalType">
+            <property name="severity" value="error"/>
+            <property name="illegalClassNames" value=""/>
+            <property name="format" value="^java\.awt\.(?!Color$).*$"/>
+            <message key="illegal.type" value="Do not use the ''{0}'' data type in this course."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="severity" value="error"/>
+            <property name="illegalClasses" value="^java\.awt\.(?!Color$).*$"/>
+            <property name="regexp" value="true"/>
+            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
+        </module>
+
+        <!-- do not allow data types in various packages  -->
+        <module name="MyIllegalType">
+            <property name="severity" value="error"/>
+            <property name="illegalClassNames" value=""/>
+            <property name="format" value="^(apple|com|javafx|javax|jdk|netscape|oracle|org|sun).*$"/>
+            <message key="illegal.type" value="Do not use the ''{0}'' data type in this course."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="severity" value="error"/>
+            <property name="illegalPkgs" value="apple, com, javafx, javax, jdk, netscape, oracle, org, sun"/>
+            <property name="regexp" value="false"/>
+            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
+        </module>
+
+        <!-- use java.lang.StringBuilder instead of java.lang.StringBuffer -->
+        <module name="IllegalType">
+            <property name="illegalClassNames" value="StringBuffer, java.lang.StringBuffer"/>
             <message key="illegal.type" value="Do not use ''{0}'' in this course. Instead, use ''StringBuilder''."/>
         </module>
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.lang.StringBuffer"/>
+            <message key="instantiation.avoid" value="Do not use ''{0}'' in this course. Instead, use ''StringBuilder''."/>
+        </module>
 
-        <!-- don't use Hashtable -->
+        <!-- don't use java.util.Hashtable -->
         <module name="IllegalType">
             <property name="illegalClassNames" value="java.util.Hashtable"/>
-            <message key="illegal.type" value="Do not use ''java.util.Hashtable'' in this course. Instead, use ''java.util.HashMap''."/>
+            <message key="illegal.type" value="Do not use ''java.util.Hashtable''. Instead, use ''java.util.HashMap''."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="illegalClasses" value="java.util.Hashtable"/>
+            <property name="regexp" value="false"/>
+            <message key="import.illegal" value="Do not use ''java.util.Hashtable''. Instead, use ''java.util.HashMap''."/>
+        </module>
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.util.Hashtable"/>
+            <message key="instantiation.avoid" value="Do not use ''java.util.Hashtable''. Instead, use ''java.util.HashMap''."/>
+        </module>
+
+        <!-- do not use java.util.Vector -->
+        <module name="IllegalType">
+            <property name="illegalClassNames" value="java.util.Vector"/>
+            <message key="illegal.type" value="Do not use ''java.util.Vector''. Instead, use ''java.util.ArrayList'' or ''java.util.LinkedList''."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="illegalClasses" value="java.util.Vector"/>
+            <message key="import.illegal" value="Do not use ''java.util.Vector''. Instead, use ''java.util.ArrayList'' or ''java.util.LinkedList''."/>
+        </module>
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.util.Vector"/>
+            <message key="instantiation.avoid" value="Do not use ''java.util.Vector''. Instead, use ''java.util.ArrayList'' or ''java.util.LinkedList''."/>
+        </module>
+
+        <!-- don't use java.util.Dictionary -->
+        <module name="IllegalType">
+            <property name="illegalClassNames" value="java.util.Dictionary"/>
+            <message key="illegal.type" value="The abstract class ''java.util.Dictionary'' is obsolete. Instead, use the interface ''java.util.Map''."/>
+        </module>
+        <module name="IllegalImport">
+            <property name="illegalClasses" value="java.util.Dictionary"/>
+            <message key="import.illegal" value="The abstract class ''java.util.Dictionary'' is obsolete. Instead, use the interface ''java.util.Map''."/>
         </module>
 
         <!-- use StdRandom instead of java.util.Random -->
@@ -311,10 +539,16 @@
             <property name="illegalClassNames" value="java.util.Random"/>
             <message key="illegal.type" value="Do not use ''java.util.Random'' in this course. Instead, use an appropriate method from ''StdRandom''."/>
         </module>
+        <module name="IllegalImport">
+            <property name="illegalClasses" value="java.util.Random"/>
+            <message key="import.illegal" value="Do not use ''java.util.Random'' in this course. Instead, use an appropriate method from ''StdRandom''."/>
+        </module>
 
-        <!-- Don't allow variables to be declared of wrapper types -->
+        <!-- Don't allow variables to be declared of wrapper types   -->
+        <!-- bug? doesn't seem to work if value = "WrapperType"      -->
+        <!-- bug? need to include both java.lang.Boolean and Boolean -->
         <module name="IllegalType">
-            <property name="id" value="WrapperType"/>
+            <property name="id" value="Wrapper"/>
             <property name="illegalClassNames" value="java.lang.Boolean,   Boolean,
                                                       java.lang.Integer,   Integer,
                                                       java.lang.Double,    Double,
@@ -326,12 +560,26 @@
             <message key="illegal.type" value="Use the primitive type instead of the corresponding wrapper type ''{0}''. For example, use ''boolean'' instead of ''Boolean''."/>
         </module>
 
+        <!-- Don't allow objects to be constructed of wrapper types -->
+        <module name="IllegalInstantiation">
+            <property name="id" value="Wrapper"/>
+            <property name="classes" value="java.lang.Boolean,
+                                            java.lang.Integer,
+                                            java.lang.Double,
+                                            java.lang.Long,
+                                            java.lang.Short,
+                                            java.lang.Float,
+                                            java.lang.Byte,
+                                            java.lang.Character"/>
+            <message key="instantiation.avoid" value="Use the primitive type instead of the corresponding wrapper type ''{0}''. For example, use ''boolean'' instead of ''Boolean''."/>
+        </module>
+
         <module name="DeclarationOrder">
             <message key="declaration.order.constructor" value="Define constructors after static and instance variables but before methods."/>
-            <message key="declaration.order.method" value="Define methods after static variables, instance variables, and constructors."/>
-            <message key="declaration.order.instance" value="Declare instance variables after static variables but before constructors and methods."/>
-            <message key="declaration.order.access" value="Declare static and instance variables in order of their access modifiers: public, protected, package, and private."/>
-            <message key="declaration.order.static" value="Declare static variables before instance variables, constructors, and methods."/>
+            <message key="declaration.order.method"      value="Define methods after static variables, instance variables, and constructors."/>
+            <message key="declaration.order.instance"    value="Declare instance variables after static variables but before constructors and methods."/>
+            <message key="declaration.order.access"      value="Declare static and instance variables in order of their access modifiers: public, protected, package, and private."/>
+            <message key="declaration.order.static"      value="Declare static variables before instance variables, constructors, and methods."/>
         </module>
 
 <!--
@@ -348,13 +596,13 @@
         </module>
 
         <module name="IllegalToken">
-            <property name="id" value="Float"/>
+            <property name="id" value="FloatType"/>
             <property name="tokens" value="LITERAL_FLOAT"/>
             <message key="illegal.token" value="Use the primitive type ''double'' instead of the primitive type ''float''."/>
         </module>
 
         <module name="IllegalTokenText">
-            <property name="id" value="Float"/>
+            <property name="id" value="FloatLiteral"/>
             <property name="tokens" value="NUM_FLOAT"/>
             <property name="format" value="^.*f$"/>
             <message key="illegal.token.text" value="Use a ''double'' literal instead of a ''float'' literal."/>
@@ -412,13 +660,14 @@
         </module>
 
         <!-- Checks that comments are not empty. -->
+<!--
         <module name="IllegalTokenText">
             <property name="id" value="EmptyComment"/>
             <property name="tokens" value="COMMENT_CONTENT"/>
             <property name="format" value="^\s*$"/>
             <message key="illegal.token.text" value="The comment is empty."/>
         </module>
-
+-->
         <!-- Do not name a variable 'one', 'two', 'three', and so forth -->
         <module name="IllegalTokenText">
             <property name="id" value="IdentifierName"/>
@@ -434,7 +683,6 @@
         <module name="EqualsAvoidsNull"/>
         <module name="EqualsHashCode"/>    findbugs catches this already
         <module name="FinalLocalVariable"/>
-        <module name="IllegalInstantiation"/>
         <module name="PackageDeclaration"/>
         <module name="ReturnCount"/>
         <module name="ExplicitInitialization"/>
@@ -469,7 +717,8 @@
         <!-- =========================================================================== -->
 
         <module name="AvoidStaticImport">
-            <message key="import.avoidStatic" value="Do not use static imports."/>
+            <property name="severity" value="error"/>
+            <message key="import.avoidStatic" value="Do not use static imports in this course."/>
         </module>
 
         <module name="RedundantImport">
@@ -483,6 +732,7 @@
         </module>
 
         <module name="AvoidStarImport">
+            <property name="severity" value="error"/>
             <message key="import.avoidStar" value="Do not use .* in import statements."/>
         </module>
 
@@ -884,7 +1134,8 @@
         </module>
 -->
 
-<!--   seems to flag double literals as well as float literals; appears to be a bug in Checkstyle
+<!--   seems to flag double literals as well as float literals;
+       appears to be a bug in Checkstyle: https://github.com/checkstyle/checkstyle/issues/5013
         <module name="IllegalToken">
             <property name="tokens" value="NUM_FLOAT"/>
             <message key="illegal.token" value="Use the primitive type ''double'' instead of the primitive type ''float''."/>
@@ -898,7 +1149,14 @@
 
         <module name="IllegalToken">
             <property name="severity" value="error"/>
-            <property name="tokens" value="LITERAL_NATIVE, STRICTFP, LITERAL_VOLATILE, LITERAL_TRANSIENT, LITERAL_SYNCHRONIZED"/>
+            <property name="tokens" value="LITERAL_NATIVE, STRICTFP, LITERAL_VOLATILE, LITERAL_TRANSIENT"/>
+            <message key="illegal.token" value="Do not use the keyword ''{0}'' in this course."/>
+        </module>
+
+        <module name="IllegalToken">
+            <property name="id" value="Synchronized"/>
+            <property name="severity" value="error"/>
+            <property name="tokens" value="LITERAL_SYNCHRONIZED"/>
             <message key="illegal.token" value="Do not use the keyword ''{0}'' in this course."/>
         </module>
 
@@ -920,82 +1178,48 @@
             <message key="illegal.token" value="Do not use the ''instanceof'' operator in this course. Use ''getClass()'' to compare classes."/>
         </module>
 
-        <!-- Avoid masking of Exception, Throwable, RuntimeException -->
+        <!-- Avoid masking of Exception, Error, Throwable, RuntimeException -->
         <module name="IllegalCatch">
             <property name="severity" value="error"/>
-            <property name="illegalClassNames" value="java.lang.Exception,
-                                                      java.lang.Throwable,
-                                                      java.lang.RuntimeException,
-                                                      java.lang.AssertionError,
-                                                      java.lang.VirtualMachineError,
-                                                      java.lang.InternalError,
-                                                      java.lang.StackOverflowError,
-                                                      java.lang.UnknownError,
-                                                      java.lang.OutOfMemoryError"/>
+            <property name="illegalClassNames" value="java.lang.Exception,           Exception,
+                                                      java.lang.Error,               Error,
+                                                      java.lang.Throwable,           Throwable,
+                                                      java.lang.RuntimeException,    RuntimeException"/>
+            <message key="illegal.catch" value="Do not catch ''{0}'' in this course. You may catch specific exceptions, such as ''java.lang.IllegalArgumentException''."/>
+        </module>
+
+        <!-- Avoid masking of other exceptions -->
+        <module name="IllegalCatch">
+            <property name="severity" value="error"/>
+            <property name="illegalClassNames" value="java.lang.AssertionError,      AssertionError,
+                                                      java.lang.VirtualMachineError, VirtualMachineError,
+                                                      java.lang.InternalError,       InternalError,
+                                                      java.lang.StackOverflowError,  StackOverflowError,
+                                                      java.lang.UnknownError,        UnknownError, 
+                                                      java.lang.OutOfMemoryError,    OutOfMemoryError"/>
             <message key="illegal.catch" value="Do not catch ''{0}'' in this course."/>
         </module>
 
-        <!-- don't throw generic exceptions -->
+        <!-- don't use throws with generic exceptions -->
+        <!-- we disallows throws keyword, so no need for this check -->
+        <!--
         <module name="IllegalThrows">
-            <property name="illegalClassNames" value="java.lang.Throwable,
-                                                      java.lang.Error,
-                                                      java.lang.Exception,
-                                                      java.lang.RuntimeException"/>
-            <message key="illegal.throw" value="Do not throw ''{0}'' in this course."/>
+            <property name="illegalClassNames" value="java.lang.Throwable,        Throwable,
+                                                      java.lang.Error,            Error,
+                                                      java.lang.Exception,        Exception,
+                                                      java.lang.RuntimeException, RuntimeException"/>
+            <message key="illegal.throw" value="Do not throw ''{0}'' in this course. You may throw specific exceptions, such as ''java.lang.IllegalArgumentException''."/>
         </module>
+        -->
 
         <!-- don't throw NullPointerException except for Comparable or Comparator -->
+        <!--
         <module name="IllegalThrows">
             <property name="illegalClassNames" value="java.lang.NullPointerException"/>
             <property name="ignoredMethodNames" value="compare,compareTo"/>
             <message key="illegal.throw" value="Do not throw ''{0}'' in this method."/>
         </module>
-
-        <!-- Disallow java.io and other packages that students must not use -->
-        <!-- Disallowing the package also disallows all subpackages. -->
-
-        <!-- everything in java.awt (and subpackages), except java.awt.Color -->
-        <module name="IllegalImport">
-            <property name="severity" value="error"/>
-            <property name="regexp" value="true"/>
-            <property name="illegalClasses" value="^java\.awt\.(?!Color$).*$"/>
-            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
-        </module>
-
-        <!-- subpackages in java.lang or java.util (but not classes in java.lang or java.util itself) -->
-        <module name="IllegalImport">
-            <property name="severity" value="error"/>
-            <property name="illegalClasses" value="^java\.(util|lang)\..+\..*$"/>
-            <property name="regexp" value="true"/>
-            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
-        </module>
-
-        <module name="IllegalImport">
-            <property name="severity" value="error"/>
-            <property name="illegalPkgs" value="java.applet,
-                                                java.beans,
-                                                java.math,
-                                                java.net,
-                                                java.rmi,
-                                                java.security,
-                                                java.sql,
-                                                java.text,
-                                                java.time,
-                                                javax,
-                                                org,
-                                                sun"/>
-            <message key="import.illegal" value="Do not import ''{0}'' in this course."/>
-        </module>
-
-
-        <module name="IllegalImport">
-            <property name="severity" value="error"/>
-            <property name="illegalPkgs" value="edu.princeton.cs.introcs,
-                                                java.nio,
-                                                java.io"/>
-            <message key="import.illegal" value="Do not import ''{0}'' in this course. Instead, use the I/O libraries in edu.princeton.cs.algs4."/>
-        </module>
-
+        -->
 
     </module>
 

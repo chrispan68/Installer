@@ -109,7 +109,7 @@
               files="RabinKarp.java"/>
 
     <!-- Calls Math.random() -->
-    <suppress checks="RegexpSinglelineJava"
+    <suppress id="AvoidMathRandom"
               files="Knuth.java"/>
 
     <!-- Calls Math.pow(x, 0.5) -->
@@ -167,12 +167,16 @@
               files="InsertionTest.java"/>
 
     <!-- Calls Math.random() -->
-    <suppress checks="RegexpSinglelineJava"
+    <suppress id="AvoidMathRandom"
               files="(CouponCollector|Coupon|Flip|Gambler|RandomInt|RandomSeq|RandomSurfer|Sample|SelfAvoidingWalk|TwentyQuestions).java"/>
 
     <!--  ***********************************************************************  -->
     <!--  COS 126 PROGRAMMING ASSIGNMENT EXCEPTIONS                                -->
     <!--  ***********************************************************************  -->
+
+    <!-- Calls Math.random() -->
+    <suppress id="AvoidMathRandom"
+              files="(RandomWalker|RandomWalkers|RollDice).java"/>
 
     <!-- throw RuntimeException is ok in RingBuffer because we've just introduced exceptions -->
     <suppress checks="IllegalThrows"
@@ -193,6 +197,10 @@
     <!-- PercolationVisualizer uses java.awt.Font -->
     <suppress checks="IllegalImport"
               files="(PercolationVisualizer).java"/>
+
+    <!-- UnicodeCheck uses Unicode characters in header -->
+    <suppress id="NotASCII"
+              files="(UnicodeCheck).java"/>
 
     <!-- can't seem to combine these into one check with | -->
     <suppress id="FloatType"
@@ -235,24 +243,24 @@
     <!-- suppress header check except on COS 126 and COS 226 required files -->
     <!-- this formatting hack seems to enable us to split regexp over several lines  -->
     <suppress id="Header"
-              files="^(?!.*\b(HelloWorld|HiFour|Ordered|GreatCircle|RGBtoCMYK|
-                         |Bits|Checkerboard|NoonSnooze|RandomWalker|RandomWalkers|RollDice|  
-                         |NBody|
-                         |Transform2D|Sierpinski|Art|
-                         |LFSR|PhotoMagic|
-                         |RingBuffer|GuitarString|GuitarHero|
-                         |MarkovModel|TextGenerator|
-                         |Tour|
-                         |Blob|BeadFinder|BeadTracker|Avogadro|
-                         |Percolation|PercolationStats|
-                         |Deque|RandomizedQueue|
-                         |Autocomplete|BinarySearchDeluxe|Term|
-                         |Board|Solver|
-                         |PointST|KdTreeST|
-                         |WordNet|ShortestCommonAncestor|
-                         |SeamCarver|
-                         |MoveToFront|BurrowsWheeler|
-                     ).java$).*$"/>
+              files="^(?!.*\b(readme.txt|r.txt|
+                         |HelloWorld.java|HiFour.java|Ordered.java|GreatCircle.java|RGBtoCMYK.java|
+                         |Bits.java|Checkerboard.java|NoonSnooze.java|RandomWalker.java|RandomWalkers.java|RollDice.java|  
+                         |NBody.java|
+                         |Transform2D.java|Sierpinski.java|Art.java|
+                         |LFSR.java|PhotoMagic.java|
+                         |RingBuffer.java|GuitarString|GuitarHero.java|
+                         |MarkovModel.java|TextGenerator.java|
+                         |Tour.java|
+                         |Blob.java|BeadFinder.java|BeadTracker.java|Avogadro.java|
+                         |Percolation.java|PercolationStats.java|
+                         |Deque.java|RandomizedQueue.java|Permutation.java|
+                         |Autocomplete|BinarySearchDeluxe.java|Term.java|
+                         |Board.java|Solver.java|
+                         |PointST.java|KdTreeST.java|
+                         |WordNet.java|ShortestCommonAncestor.java|
+                         |SeamCarver.java|
+                         |MoveToFront.java|BurrowsWheeler.java)$).*$"/>
 
     <suppress checks="LineLengthCheck|MainCallsAllPublicMethods|CommentCheck"
               files="^(?!.*(HiFour|Ordered|GreatCircle|RGBtoCMYK|

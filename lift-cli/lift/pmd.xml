@@ -127,6 +127,7 @@
         <exclude name="CyclomaticComplexity"/>
         <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/>
         <exclude name="CollapsibleIfStatements"/>
+        <exclude name="DataClass"/>                         <!-- false positive on some PercolationStats -->
         <exclude name="ExcessiveClassLength"/>              <!-- defer to Checkstyle -->
         <exclude name="ExcessiveImports"/>
         <exclude name="ExcessiveMethodLength"/>             <!-- defer to Checkstyle -->
@@ -226,7 +227,7 @@
           message="Are you using the correct loop index variable? You are modifying an outer ''for'' loop index variable in an inner ''for'' loop update expression."/>
 
     <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop"
-          message="Avoid using a ''continue'' or ''break'' statement as the last statement in a loop.">
+          message="Avoid using a ''continue'', ''break'', or ''return'' statement as the last statement in a loop.">
         <properties>
             <property name="violationSuppressXPath"
                      value="//ClassOrInterfaceDeclaration[(@Image='SAP') or (@Image='ShortestCommonAncestor')]"/>

@@ -17,7 +17,7 @@
       <component name="CheckStyle-IDEA-workspace">
         <option name="configuration">
           <map>
-            <entry key="last-active-plugin-version" value="5.21.1" />
+            <entry key="last-active-plugin-version" value="5.22.1" />
           </map>
         </option>
       </component>
@@ -59,7 +59,7 @@
         <property name="project.structure.last.edited" value="Libraries" />
         <property name="project.structure.proportion" value="0.15" />
         <property name="project.structure.side.proportion" value="0.2" />
-        <property name="settings.editor.selected.configurable" value="configurable.group.build" />
+        <property name="settings.editor.selected.configurable" value="project.propCompiler" />
       </component>
       <component name="RunDashboard">
         <option name="ruleStates">

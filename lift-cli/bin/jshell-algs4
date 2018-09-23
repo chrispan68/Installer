@@ -6,5 +6,9 @@ LIFT_LIB="/usr/local/lift/lib"
 # sets the path to the textbook libraries 
 CLASSPATH=".:${LIFT_LIB}/algs4.jar"
 
-# executes with the textbook libraries in the classpath 
-jshell --class-path "${CLASSPATH}" "$@"
+# executes with the textbook libraries in the classpath
+if [ -f /usr/libexec/java_home ]; then
+    /usr/libexec/java_home -exec jshell --class-path "${CLASSPATH}" "$@"
+else
+    jshell --class-path "${CLASSPATH}" "$@"
+fi

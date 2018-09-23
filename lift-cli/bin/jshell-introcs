@@ -7,4 +7,9 @@ LIFT_LIB="/usr/local/lift/lib"
 CLASSPATH=".:${LIFT_LIB}/stdlib.jar:${LIFT_LIB}/introcs.jar"
 
 # executes with the textbook libraries in the classpath 
-jshell --class-path "${CLASSPATH}" "$@"
+if [ -f /usr/libexec/java_home ]; then
+    /usr/libexec/java_home -exec jshell --class-path "${CLASSPATH}" "$@"
+else
+    jshell --class-path "${CLASSPATH}" "$@"
+fi
+
