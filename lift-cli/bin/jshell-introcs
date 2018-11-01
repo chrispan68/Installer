@@ -1,15 +1,22 @@
 #!/bin/bash
 
 # this must match the install directory 
-LIFT_LIB="/usr/local/lift/lib"
+LIFT="/usr/local/lift"
 
-# sets the path to the textbook libraries 
-CLASSPATH=".:${LIFT_LIB}/stdlib.jar:${LIFT_LIB}/introcs.jar"
+# use algs4.jar because jshell can't access classes in default package (!)
+CLASSPATH=".:${LIFT}/lib/algs4.jar"
 
-# executes with the textbook libraries in the classpath 
+# the jshell startup script (to import standard libraries)
+JSHELL_SCRIPT="${LIFT}/introcs.jshell"
+
+# execute on Windows/Linux using "jshell" but on OS X using "java_home"
+JSHELL="jshell"
 if [ -f /usr/libexec/java_home ]; then
-    /usr/libexec/java_home -exec jshell --class-path "${CLASSPATH}" "$@"
-else
-    jshell --class-path "${CLASSPATH}" "$@"
+    JSHELL="/usr/libexec/java_home -exec jshell"
 fi
 
+# executes with the textbook libraries in the classpath 
+$JSHELL --class-path "$CLASSPATH" \
+        --startup PRINTING \
+        --startup "$JSHELL_SCRIPT" \
+        "$@"
