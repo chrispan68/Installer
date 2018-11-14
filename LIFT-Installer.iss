@@ -76,13 +76,15 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 
 [Registry]
-Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
-    ValueType: expandsz; ValueName: "Path"; ValueData: "{pf64}\Java\jdk-{#JDKVersion}\bin;{olddata}"; \
-    Check: NeedsAddPath(ExpandConstant('{pf64}\Java\jdk-{#JDKVersion}\bin')); Tasks: installjava
 
 Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
     ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{pf64}\Git\bin;"; \
     Check: NeedsAddPath(ExpandConstant('{pf64}\Git\bin')); Tasks: installgit
+
+Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; \
+    ValueType: expandsz; ValueName: "Path"; ValueData: "{pf64}\Java\jdk-{#JDKVersion}\bin;{olddata}"; \
+    Check: NeedsAddPath(ExpandConstant('{pf64}\Java\jdk-{#JDKVersion}\bin')); Tasks: installjava
+
 
 
 [Run]
