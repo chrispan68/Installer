@@ -208,7 +208,7 @@ begin
     end
       else
     begin
-      CurPath := CurPath + ';' + Path + ';';
+      CurPath := Path + ';' + CurPath;
       if RegWriteStringValue(HKEY_LOCAL_MACHINE, EnvironmentKey, 'Path', CurPath) then
       begin
         Log('PATH written');
