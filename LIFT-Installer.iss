@@ -108,7 +108,7 @@ Filename: "{sys}\Robocopy.exe"; Parameters: """{tmp}\.IdeaIC{#IntelliJVersion}""
 Type: filesandordirs; Name: "{%HOMEPATH}\.IdeaIC{#IntelliJVersion}" 
 Type: filesandordirs; Name: "{pf}\Xming"
 Type: filesandordirs; Name: "{pf64}\JetBrains"
-Type: dirifempty; Name: "{pf64}\Java"
+Type: dirifempty; Name: "{pf64}\Java"; Tasks: installjava; AfterInstall: RemovePath(ExpandConstant('{pf64}\Java\jdk-{#JDKVersion}\bin'));
 Type: dirifempty; Name: "{pf64}\Git\usr"
 Type: dirifempty; Name: "{pf64}\Git"
  
